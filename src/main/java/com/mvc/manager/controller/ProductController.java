@@ -30,6 +30,28 @@ public class ProductController {
         return service.listAll();
     }
 
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Product> get(@PathVariable Integer id) {
+        try {
+            Product product = service.get(id);
+            return new ResponseEntity<Product>(product, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/products")
+    public void add(@RequestBody Product product) {
+        service.save(product);
+
+    }
+
+    @DeleteMapping("/products/{id}")
+    public void delete(@PathVariable Integer id) {
+        service.delete(id);
+
+    }
+
     @GetMapping("/random")
     public Quote getRandom() {
         return service.getRandom();
